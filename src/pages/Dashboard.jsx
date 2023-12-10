@@ -1,13 +1,24 @@
 import React from "react";
 
-import { Box, Text, Heading, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Heading,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from "@chakra-ui/react";
 
 import Layout from "../layout";
+import ListIncomes from "./ListIncomes";
+import ListExpense from "./ListExpense";
 
 const Dashboard = () => {
   return (
     <Layout>
-      <Box p="3rem" bgColor="#DBF7E9" rounded="xl" mt={5} color="green.800">
+      <Box p="3rem" bgColor="#DBF7E9" rounded="xl" my={5} color="green.800">
         <Heading as="h1" size="lg">
           Hello World 👋
         </Heading>
@@ -17,10 +28,21 @@ const Dashboard = () => {
         </Text>
       </Box>
 
-      <Flex>
-        <Box></Box>
-        <Box></Box>
-      </Flex>
+      <Tabs isFitted>
+        <TabList>
+          <Tab>Pemasukan</Tab>
+          <Tab>Pengeluaran</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel>
+            <ListIncomes />
+          </TabPanel>
+          <TabPanel>
+            <ListExpense />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Layout>
   );
 };

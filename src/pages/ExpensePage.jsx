@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import {
   Heading,
@@ -11,6 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import { useGlobalContext } from "../context/GlobalContext";
 import Layout from "../layout";
 
 const ExpensePage = () => {
@@ -20,18 +22,62 @@ const ExpensePage = () => {
   const [kategori, setKategori] = useState("");
   const [keterangan, setKeterangan] = useState("");
 
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { getSigleExpense, editExpense, isLoading, expenses, addExpense } =
+    useGlobalContext();
+
+  useEffect(() => {
+    if (id) {
+      getSigleExpense(id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  useEffect(() => {
+    setTitle(expenses.title);
+    setJumlah(expenses.amount);
+    setTanggal(expenses.date);
+    setKategori(expenses.category);
+    setKeterangan(expenses.description);
+  }, [expenses, isLoading]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (id) {
+      editExpense({
+        id: id,
+        title: title,
+        amount: jumlah,
+        category: kategori,
+        description: keterangan,
+        date: tanggal,
+      });
+      navigate("/");
+    } else {
+      addExpense({
+        title: title,
+        amount: jumlah,
+        category: kategori,
+        description: keterangan,
+        date: tanggal,
+      });
+      navigate("/");
+    }
+  };
+
   return (
     <Layout>
       <Box my={5}>
-        <Heading>Tambah Pengeluaran</Heading>
+        <Heading>{id ? "Update" : "Tambah"} Pengeluaran</Heading>
         <Text>Isi bidang dibawah ini</Text>
       </Box>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <Box rounded="md" boxShadow="md" p={5} my={4}>
           <Input
             placeholder="Judul"
-            value={title}
+            value={title || ""}
             onChange={(e) => setTitle(e.target.value)}
             mb={4}
           />
@@ -39,35 +85,45 @@ const ExpensePage = () => {
             placeholder="Jumlah"
             type="number"
             mb={4}
-            value={jumlah}
+            value={jumlah || ""}
             onChange={(e) => setJumlah(e.target.value)}
           />
           <Input
             placeholder="Tanggal"
             type="date"
             mb={4}
-            value={tanggal}
+            value={tanggal || ""}
             onChange={(e) => setTanggal(e.target.value)}
           />
           <Select
             placeholder="Select option"
             mb={4}
-            defaultValue={kategori}
+            defaultValue={kategori || ""}
             onChange={(e) => setKategori(e.target.value)}
           >
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="bank">Deposito</option>
+            <option value="stocks">Dividen</option>
+            <option value="salary">Gaji</option>
+            <option value="gift">Hibah</option>
+            <option value="investments">Investasi</option>
+            <option value="other">Lain-lain</option>
+            <option value="refund">Pengembalian Dana</option>
+            <option value="award">Penghargaan</option>
+            <option value="sale">Penjualan</option>
+            <option value="rental">Penyewaan</option>
+            <option value="saving">Tabungan</option>
           </Select>
           <Textarea
             placeholder="Keterangan"
-            value={keterangan}
+            value={keterangan || ""}
             onChange={(e) => setKeterangan(e.target.value)}
           />
         </Box>
         <Flex direction="row-reverse">
           <Box>
-            <Button colorScheme="teal">Simpan</Button>
+            <Button colorScheme="teal" type="submit">
+              {id ? "Ubah" : "Simpan"}
+            </Button>
           </Box>
         </Flex>
       </form>

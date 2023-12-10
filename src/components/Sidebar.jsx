@@ -47,7 +47,7 @@ const Sidebar = () => {
           }}
           cursor="pointer"
           as={Link}
-          to="/incomes"
+          to="/add-incomes"
         >
           <MdDashboard />
           <chakra.span>Income</chakra.span>
@@ -64,7 +64,7 @@ const Sidebar = () => {
           }}
           cursor="pointer"
           as={Link}
-          to="/expense"
+          to="/add-expense"
         >
           <MdDashboard />
           <chakra.span>Expense</chakra.span>
