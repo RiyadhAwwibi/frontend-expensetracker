@@ -1,20 +1,33 @@
 import React from "react";
 
-import { Box, Button, Flex, Heading, chakra } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Flex,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
 
-import { MdMenu } from "react-icons/md";
-
-const Navbar = ({ btnRef, onOpen }) => {
+const Navbar = () => {
   return (
     <Box as="nav" py="3rem">
-      <Flex gap={3}>
-        <chakra.div display={{ base: "block", md: "none" }}>
-          <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
-            <MdMenu />
-          </Button>
-        </chakra.div>
-
-        <Heading>Money Expense</Heading>
+      <Flex gap={3} justifyContent="space-between" alignItems="center">
+        <Heading size="lg">Money Expense</Heading>
+        <Box>
+          <Menu>
+            <MenuButton>
+              <Avatar name="Riyad Awwibi" />
+            </MenuButton>
+            <MenuList>
+              <MenuItem>You Profile</MenuItem>
+              <MenuItem>Setting</MenuItem>
+              <MenuItem color="red">Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
       </Flex>
     </Box>
   );

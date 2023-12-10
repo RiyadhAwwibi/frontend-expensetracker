@@ -17,6 +17,7 @@ import {
   MenuItem,
   IconButton,
   Input,
+  Button,
 } from "@chakra-ui/react";
 import { CiEdit, CiMenuKebab, CiTrash } from "react-icons/ci";
 
@@ -32,13 +33,18 @@ const ListExpense = () => {
 
   return (
     <>
-      <Flex mb={6}>
+      <Flex mb={6} justifyContent="space-between" alignItems="center">
         <Box>
           <Input
             type="month"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
+        </Box>
+        <Box>
+          <Button colorScheme="teal" as={Link} to="/add-expense">
+            Tambah
+          </Button>
         </Box>
       </Flex>
       {isLoading ? (
