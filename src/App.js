@@ -11,7 +11,9 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/add-incomes" element={<IncomesPages />} />
         <Route path="/edit-incomes/:id" element={<IncomesPages />} />
-        <Route path="/expense" element={<ExpensePage />} />
+
+        <Route path="/add-expense" element={<ExpensePage />} />
+        <Route path="/edit-expense/:id" element={<ExpensePage />} />
       </Routes>
     </BrowserRouter>
   );

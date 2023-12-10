@@ -10,6 +10,8 @@ export const GlobalProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // incomes
+
   const getAllIncomes = async () => {
     setIsLoading(true);
     try {
@@ -58,6 +60,7 @@ export const GlobalProvider = ({ children }) => {
       );
 
       console.log(response.data);
+      await getAllIncomes();
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -98,14 +101,113 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  // expense
+
+  const getAllExpense = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BASE_URL}get-expenses`);
+
+      setExpenses(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const getSigleExpense = async (id) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BASE_URL}get-expenses/${id}`);
+
+      setExpenses({
+        ...response.data,
+        date: new Date(response.data.date).toISOString().split("T")[0],
+      });
+      setIsLoading(false);
+      console.log({
+        ...response.data,
+        date: new Date(response.data.date).toISOString().split("T")[0],
+      });
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const editExpense = async (data) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.patch(
+        `${BASE_URL}update-expense/${data.id}`,
+        {
+          title: data.title,
+          amount: data.amount,
+          category: data.category,
+          description: data.description,
+          date: data.date,
+        }
+      );
+
+      console.log(response.data);
+      await getAllExpense();
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const addExpense = async (data) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${BASE_URL}add-expense`, {
+        title: data.title,
+        amount: data.amount,
+        category: data.category,
+        description: data.description,
+        date: data.date,
+      });
+
+      console.log(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const deleteExpense = async (id) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.delete(`${BASE_URL}delete-expense/${id}`);
+
+      getAllExpense();
+      console.log(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  console.log(expenses);
   return (
     <GlobalContext.Provider
       value={{
+        //icomes
         getAllIncomes,
         getSigleIncomes,
         editIncomes,
         addIncomes,
         deleteIncomes,
+        //expense
+        getAllExpense,
+        getSigleExpense,
+        editExpense,
+        addExpense,
+        deleteExpense,
         incomes,
         setIncomes,
         expenses,

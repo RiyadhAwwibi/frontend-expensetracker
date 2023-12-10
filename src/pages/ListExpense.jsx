@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import dayjs from "dayjs";
 import {
@@ -21,9 +22,9 @@ import { CiEdit, CiMenuKebab, CiTrash } from "react-icons/ci";
 import { useGlobalContext } from "../context/GlobalContext";
 
 const ListExpense = () => {
-  const { getAllIncomes, incomes, isLoading } = useGlobalContext();
+  const { getAllExpense, expenses, isLoading } = useGlobalContext();
   useEffect(() => {
-    getAllIncomes();
+    getAllExpense();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -34,7 +35,7 @@ const ListExpense = () => {
         <p>Loading</p>
       ) : (
         <Accordion allowMultiple>
-          {incomes.map((item) => (
+          {expenses?.map((item) => (
             <ItemList key={item._id} item={item} />
           ))}
         </Accordion>
@@ -49,7 +50,7 @@ const ItemList = ({ item }) => {
       <h2>
         <AccordionButton>
           <Box as="span" flex="1" textAlign="left">
-            <chakra.p color="green" fontWeight="bold">
+            <chakra.p color="red" fontWeight="bold">
               Rp. {item.amount}
             </chakra.p>
             <chakra.p
@@ -78,7 +79,7 @@ const ItemList = ({ item }) => {
           >
             dibuat : {dayjs(item.createdAt).format("DD/MM/YYYY")}
           </chakra.p>
-          <ButtonListOption />
+          <ButtonListOption id={item._id} />
         </Flex>
         <Box>{item.description}</Box>
       </AccordionPanel>
@@ -86,7 +87,13 @@ const ItemList = ({ item }) => {
   );
 };
 
-const ButtonListOption = () => {
+const ButtonListOption = ({ id }) => {
+  const { deleteExpense } = useGlobalContext();
+
+  const handleDelete = () => {
+    deleteExpense(id);
+  };
+
   return (
     <Menu>
       <MenuButton
@@ -97,8 +104,14 @@ const ButtonListOption = () => {
         size="sm"
       />
       <MenuList>
-        <MenuItem icon={<CiEdit />}>Edit</MenuItem>
-        <MenuItem color="red" icon={<CiTrash />}>
+        <MenuItem icon={<CiEdit />} as={Link} to={`/edit-expense/${id}`}>
+          Edit
+        </MenuItem>
+        <MenuItem
+          color="red"
+          icon={<CiTrash />}
+          onClick={() => handleDelete(id)}
+        >
           Hapus
         </MenuItem>
       </MenuList>

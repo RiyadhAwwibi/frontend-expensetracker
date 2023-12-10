@@ -64,7 +64,7 @@ const Sidebar = () => {
           }}
           cursor="pointer"
           as={Link}
-          to="/expense"
+          to="/add-expense"
         >
           <MdDashboard />
           <chakra.span>Expense</chakra.span>
