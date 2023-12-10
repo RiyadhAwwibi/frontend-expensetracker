@@ -55,7 +55,7 @@ const SideDrawer = ({ isOpen, onClose, btnRef }) => {
               }}
               cursor="pointer"
               as={Link}
-              to="/incomes"
+              to="/add-incomes"
             >
               <MdDashboard />
               <chakra.span>Income</chakra.span>

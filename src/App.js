@@ -9,7 +9,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/incomes" element={<IncomesPages />} />
+        <Route path="/add-incomes" element={<IncomesPages />} />
+        <Route path="/edit-incomes/:id" element={<IncomesPages />} />
         <Route path="/expense" element={<ExpensePage />} />
       </Routes>
     </BrowserRouter>

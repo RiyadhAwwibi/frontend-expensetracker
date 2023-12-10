@@ -20,6 +20,11 @@ const ExpensePage = () => {
   const [kategori, setKategori] = useState("");
   const [keterangan, setKeterangan] = useState("");
 
+  const handleSumbit = (e) => {
+    e.preventDefault();
+    console.log({ title, jumlah, tanggal, kategori, keterangan });
+  };
+
   return (
     <Layout>
       <Box my={5}>
@@ -27,7 +32,7 @@ const ExpensePage = () => {
         <Text>Isi bidang dibawah ini</Text>
       </Box>
 
-      <form>
+      <form onSubmit={handleSumbit}>
         <Box rounded="md" boxShadow="md" p={5} my={4}>
           <Input
             placeholder="Judul"
@@ -67,7 +72,9 @@ const ExpensePage = () => {
         </Box>
         <Flex direction="row-reverse">
           <Box>
-            <Button colorScheme="teal">Simpan</Button>
+            <Button colorScheme="teal" type="submit">
+              Simpan
+            </Button>
           </Box>
         </Flex>
       </form>
