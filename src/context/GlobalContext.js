@@ -12,10 +12,12 @@ export const GlobalProvider = ({ children }) => {
 
   // incomes
 
-  const getAllIncomes = async () => {
+  const getAllIncomes = async (date) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}get-incomes`);
+      const response = await axios.get(`${BASE_URL}get-incomes`, {
+        params: { date },
+      });
 
       setIncomes(response.data);
       setIsLoading(false);
@@ -103,10 +105,12 @@ export const GlobalProvider = ({ children }) => {
 
   // expense
 
-  const getAllExpense = async () => {
+  const getAllExpense = async (date) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}get-expenses`);
+      const response = await axios.get(`${BASE_URL}get-expenses`, {
+        params: { date },
+      });
 
       setExpenses(response.data);
       setIsLoading(false);

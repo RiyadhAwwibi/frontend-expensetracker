@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import dayjs from "dayjs";
@@ -16,21 +16,37 @@ import {
   MenuList,
   MenuItem,
   IconButton,
+  Input,
+  Button,
 } from "@chakra-ui/react";
 import { CiEdit, CiMenuKebab, CiTrash } from "react-icons/ci";
 
 import { useGlobalContext } from "../context/GlobalContext";
 
 const ListExpense = () => {
+  const [date, setDate] = useState("");
   const { getAllExpense, expenses, isLoading } = useGlobalContext();
   useEffect(() => {
-    getAllExpense();
+    getAllExpense(date);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [date]);
 
   return (
     <>
-      <chakra.h1 mb={6}>Pengeluaran</chakra.h1>
+      <Flex mb={6} justifyContent="space-between" alignItems="center">
+        <Box>
+          <Input
+            type="month"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Button colorScheme="teal" as={Link} to="/add-expense">
+            Tambah
+          </Button>
+        </Box>
+      </Flex>
       {isLoading ? (
         <p>Loading</p>
       ) : (
